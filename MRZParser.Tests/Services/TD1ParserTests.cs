@@ -36,7 +36,7 @@ namespace MRZParser.Tests.Services
             Assert.True(expectedModel.DocumentType == result.DocumentType);
         }
         
-        [Fact(DisplayName = "Document Type should be 'UTO'")]
+        [Fact(DisplayName = "Country Code should be 'UTO'")]
         public void Test_ParseTD1Mrz_ReturnsCorrectCountryCode()
         {
             // Act
@@ -73,7 +73,7 @@ namespace MRZParser.Tests.Services
                     "ERIKSSON<<ANNA<MARIA<<<<<<<<<<", "Male")]
         [InlineData("I<UTOD231458907<<<<<<<<<<<<<<<" + 
                     "7408122X1204159UTO<<<<<<<<<<<6" +
-                    "ERIKSSON<<ANNA<MARIA<<<<<<<<<<", "Undefined")]
+                    "ERIKSSON<<ANNA<MARIA<<<<<<<<<<", "Other")]
         public void Test_ParseTD1Mrz_ReturnsCorrectSex(string mrzWithDifferentSex, string sex)
         {
             // Act

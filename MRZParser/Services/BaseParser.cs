@@ -26,7 +26,7 @@ namespace MRZParser.Services
             return null;
         }
         
-        protected static string? DocumentType(string mrz) => mrz[0] is 'A' or 'C' or 'I' ? "Other" : null;
+        protected virtual string? DocumentType(string mrz) => mrz[0] is 'A' or 'C' or 'I' ? "Other" : null;
         
         protected static string CountryCode(string mrz) => $"{mrz[2]}{mrz[3]}{mrz[4]}";
 

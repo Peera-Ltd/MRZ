@@ -42,7 +42,7 @@ namespace MRZParser.Services
             {
                 'F' => "Female",
                 'M' => "Male",
-                _ => "Undefined"
+                _ => "Other"
             };
         }
         
