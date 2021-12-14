@@ -26,6 +26,8 @@ namespace MRZParser.Services
                 FirstName = FirstName(mrz)
             };
         }
+
+        protected override string? DocumentType(string mrz) => mrz[0] is 'A' or 'C' or 'I' ? "Other" : null;
         
         protected override string? DocumentNumber(string mrz)
         {

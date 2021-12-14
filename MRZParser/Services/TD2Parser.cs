@@ -5,7 +5,8 @@ using MRZParser.Models;
 namespace MRZParser.Services
 {
     /// <summary>
-    /// TD2 Format has 2 lines of 36 characters
+    /// TD2 format has 2 lines of 36 characters.
+    /// If the first character is a V, it is of MRV-B format.
     /// </summary>
     public class TD2Parser : BaseParser
     {
@@ -22,6 +23,16 @@ namespace MRZParser.Services
                 DateOfBirth = DateOfBirth(mrz),
                 Sex = Sex(mrz),
                 ExpiryDate = ExpiryDate(mrz),
+            };
+        }
+
+        protected override string? DocumentType(string mrz)
+        {
+            return mrz[0] switch
+            {
+                'V' => "Visa",
+                'A' or 'C' or 'I' => "Other",
+                _ => null
             };
         }
 
