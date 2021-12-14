@@ -9,9 +9,9 @@ namespace MRZParser.Services
     /// <summary>
     /// TD1 Format has 3 lines of 30 characters
     /// </summary>
-    public class TD1Parser : IParser
+    public class TD1Parser : BaseParser
     {
-        public MRZModel Parse(string mrz)
+        public override MRZModel Parse(string mrz)
         {
             return new MRZModel
             {
@@ -26,14 +26,8 @@ namespace MRZParser.Services
                 FirstName = FirstName(mrz)
             };
         }
-
-        // The second character can also be part of the doc type, but I don't know if I want to do anything with it.
-        private static string? DocumentType(string mrz) => mrz[0] is 'A' or 'C' or 'I' ? "Other" : null;
-
-        // Could potentially parse a list of country codes and return a string.
-        private static string CountryCode(string mrz) => $"{mrz[2]}{mrz[3]}{mrz[4]}";
-
-        private static string? DocumentNumber(string mrz)
+        
+        protected override string? DocumentNumber(string mrz)
         {
             var potentialDocNumber = mrz[5..].Split('<')[0];
             if (potentialDocNumber.Length <= 9)
@@ -45,10 +39,10 @@ namespace MRZParser.Services
             return docNumber.Length <= 9 ? docNumber : null;
         }
         
-        private static DateTime? DateOfBirth(string mrz)
+        protected override DateTime? DateOfBirth(string mrz)
             => ParseDate($"{mrz[34]}{mrz[35]}", $"{mrz[32]}{mrz[33]}", $"{mrz[30]}{mrz[31]}");
 
-        private static string Sex(string mrz)
+        protected override string Sex(string mrz)
         {
             return (mrz[37]) switch
             {
@@ -58,39 +52,24 @@ namespace MRZParser.Services
             };
         }
 
-        private static DateTime? ExpiryDate(string mrz) 
+        protected override DateTime? ExpiryDate(string mrz) 
             => ParseDate($"{mrz[42]}{mrz[43]}", $"{mrz[40]}{mrz[41]}", $"{mrz[38]}{mrz[39]}");
 
-        private static string Nationality(string mrz) => $"{mrz[45]}{mrz[46]}{mrz[47]}";
+        protected override string Nationality(string mrz) => $"{mrz[45]}{mrz[46]}{mrz[47]}";
         
-        private static string LastName(string mrz)
+        protected override string LastName(string mrz)
         {
             var lastName = mrz[60..].Split("<<")[0];
             return lastName.Replace("<", " ");
         }
 
-        private static string FirstName(string mrz)
+        protected override string FirstName(string mrz)
         {
             var firstName = mrz[60..]
                 .Split("<<")[1]
                 .Split("<<")[0];
 
             return firstName.Replace("<", " ");
-        }
-        
-        private static DateTime? ParseDate(string day, string month, string year)
-        {
-            if (DateTime.TryParseExact(
-                $"{day}/{month}/{year}",
-                "dd/MM/yy",
-                CultureInfo.InvariantCulture,
-                DateTimeStyles.None,
-                out var expiryDate))
-            {
-                return expiryDate;
-            }
-
-            return null;
         }
     }
 }
