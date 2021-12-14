@@ -1,6 +1,6 @@
 namespace MRZParser.Tests.Helpers
 {
-    public static class MRZSamples
+    public class MRZSamples
     {
         public const string TD1 = "I<UTOD231458907<<<<<<<<<<<<<<<" + 
                                   "7408122F1204159UTO<<<<<<<<<<<6" +

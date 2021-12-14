@@ -4,7 +4,8 @@ using MRZParser.Models;
 namespace MRZParser.Services
 {
     /// <summary>
-    /// TD3 Format has 2 lines of 44 Characters
+    /// TD3 format has 2 lines of 44 characters.
+    /// If the first character is a V, it is of MRV-A format.
     /// </summary>
     public class TD3Parser: BaseParser
     {
@@ -24,7 +25,15 @@ namespace MRZParser.Services
             };
         }
 
-        protected override string? DocumentType(string mrz) => mrz[0] is 'P' ? "Passport" : null;
+        protected override string? DocumentType(string mrz)
+        {
+            return mrz[0] switch
+            {
+                'V' => "Visa",
+                'P' => "Passport",
+                _ => null
+            };
+        }
         
         protected override string DocumentNumber(string mrz)
         {

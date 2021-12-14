@@ -18,8 +18,6 @@ namespace MRZParser
                 MRZFormat.TD1 => new TD1Parser().Parse(mrz),
                 MRZFormat.TD2 => new TD2Parser().Parse(mrz),
                 MRZFormat.TD3 => new TD3Parser().Parse(mrz),
-                MRZFormat.MRVA => new MRVAParser().Parse(mrz),
-                MRZFormat.MRVB => new MRVBParser().Parse(mrz),
                 _ => null
             };
         }
@@ -29,8 +27,8 @@ namespace MRZParser
             return mrz.Length switch
             {
                 90 => MRZFormat.TD1,
-                72 => mrz[0] == 'V' ? MRZFormat.MRVB : MRZFormat.TD2,
-                88 => mrz[0] == 'V' ? MRZFormat.MRVA : MRZFormat.TD3,
+                72 => MRZFormat.TD2,
+                88 => MRZFormat.TD3,
                 _ => MRZFormat.Error
             };
         }
