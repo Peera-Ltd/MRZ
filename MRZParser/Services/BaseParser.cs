@@ -12,7 +12,7 @@ namespace MRZParser.Services
             throw new NotImplementedException();
         }
 
-        protected static DateTime? ParseDate(string day, string month, string year)
+        protected static DateTime ParseDate(string day, string month, string year)
         {
             if (DateTime.TryParseExact(
                 $"{day}/{month}/{year}",
@@ -24,7 +24,9 @@ namespace MRZParser.Services
                 return expiryDate;
             }
 
-            return null;
+            throw new UnsupportedMRZException(
+                $"Unable to parse a date from the given numbers: Day - '{day}', Month - '{month}', Year - '{year}'." +
+                "The given MRZ may be incorrect or unsupported. This package supports TD1, TD2 and TD3 MRZs.");
         }
 
         protected static string CountryCode(string mrz) => $"{mrz[2]}{mrz[3]}{mrz[4]}";
@@ -74,12 +76,12 @@ namespace MRZParser.Services
             }
         }
 
-        protected virtual DateTime? DateOfBirth(string mrz)
+        protected virtual DateTime DateOfBirth(string mrz)
         {
             throw new NotImplementedException();
         }
 
-        protected virtual DateTime? ExpiryDate(string mrz)
+        protected virtual DateTime ExpiryDate(string mrz)
         {
             throw new NotImplementedException();
         }

@@ -58,7 +58,7 @@ namespace MRZParser.Services
             }
         }
 
-        protected override DateTime? DateOfBirth(string mrz)
+        protected override DateTime DateOfBirth(string mrz)
             => ParseDate($"{mrz[34]}{mrz[35]}", $"{mrz[32]}{mrz[33]}", $"{mrz[30]}{mrz[31]}");
 
         protected override string Sex(string mrz)
@@ -71,7 +71,7 @@ namespace MRZParser.Services
             };
         }
 
-        protected override DateTime? ExpiryDate(string mrz)
+        protected override DateTime ExpiryDate(string mrz)
             => ParseDate($"{mrz[42]}{mrz[43]}", $"{mrz[40]}{mrz[41]}", $"{mrz[38]}{mrz[39]}");
 
         protected override string Nationality(string mrz) => $"{mrz[45]}{mrz[46]}{mrz[47]}";

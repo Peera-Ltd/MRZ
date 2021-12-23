@@ -103,6 +103,8 @@ namespace MRZParser.Tests.Services
 
         #endregion
 
+        #region DateOfBirth
+
         [Fact(DisplayName = "Date Of Birth should be '12 August 1974'")]
         public void Test_ParseTD1Mrz_ReturnsCorrectDateOfBirth()
         {
@@ -112,6 +114,23 @@ namespace MRZParser.Tests.Services
             // Assert
             Assert.True(expectedModel.DateOfBirth == result.DateOfBirth);
         }
+
+        [Fact(DisplayName = "Date Of Birth should throw an UnsupportedMRZException")]
+        public void Test_ParseTD1Mrz_DateOfBirthThrowsException()
+        {
+            try
+            {
+                // Act
+                _subject.Parse(FailingTD1Samples.TD1DateOfBirth);
+            }
+            catch (Exception e)
+            {
+                // Assert
+                Assert.IsType<UnsupportedMRZException>(e);
+            }
+        }
+
+        #endregion
 
         [Theory(DisplayName = "Sex should return the correct sex")]
         [InlineData(MRZSamples.TD1, "Female")]
