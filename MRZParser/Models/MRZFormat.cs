@@ -7,6 +7,6 @@ namespace MRZParser.Models
         TD2,
         TD3,
         MRVA,
-        MRVB
+        MRVB,
     }
 }
