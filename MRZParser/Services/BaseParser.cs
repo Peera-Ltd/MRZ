@@ -60,8 +60,18 @@ namespace MRZParser.Services
 
         protected virtual string LastName(string mrz)
         {
-            var lastName = mrz[5..].Split("<<")[0];
-            return lastName.Replace("<", " ");
+            try
+            {
+                var lastName = mrz[5..].Split("<<")[0];
+                return lastName.Replace("<", " ");
+            }
+            catch (Exception e)
+            {
+                throw new UnsupportedMRZException(
+                    "Could not parse a Last Name from the MRZ. The given MRZ may be invalid." +
+                    " The pattern '<<' is required in order to find a Last Name." +
+                    $" The given MRZ was {mrz}. Inner exception: ", e);
+            }
         }
 
         protected virtual DateTime? DateOfBirth(string mrz)

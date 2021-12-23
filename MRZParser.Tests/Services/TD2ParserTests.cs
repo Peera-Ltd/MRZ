@@ -72,6 +72,8 @@ namespace MRZParser.Tests.Services
             Assert.True(expectedModel.CountryCode == result.CountryCode);
         }
 
+        #region LastName
+
         [Fact(DisplayName = "Last Name should be 'ERIKSSON'")]
         public void Test_ParseTD2Mrz_ReturnsLastName()
         {
@@ -81,6 +83,23 @@ namespace MRZParser.Tests.Services
             // Assert
             Assert.True(expectedModel.LastName == result.LastName);
         }
+
+        [Fact(DisplayName = "Last Name should throw an UnsupportedMRZException")]
+        public void Test_ParseTD2Mrz_LastNameThrowsException()
+        {
+            try
+            {
+                // Act
+                _subject.Parse(FailingTD2Samples.TD2LastName);
+            }
+            catch (Exception e)
+            {
+                // Assert
+                Assert.IsType<UnsupportedMRZException>(e);
+            }
+        }
+
+        #endregion
 
         #region FirstName
 
