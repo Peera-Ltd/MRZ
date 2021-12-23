@@ -10,6 +10,7 @@ This project supports MRZ of 3 types:
 
 # TD2:
 2 lines of 36 characters.
+
 ![alt text](https://www.doubango.org/SDKs/mrz/docs/_images/td2_image.jpg)
 
 # TD3:
