@@ -3,6 +3,7 @@ using MRZParser.Constants;
 using MRZParser.Exceptions;
 using MRZParser.Models;
 using MRZParser.Services;
+using MRZParser.Tests.ExceptionMRZSamples;
 using Xunit;
 
 namespace MRZParser.Tests.Services
@@ -32,6 +33,8 @@ namespace MRZParser.Tests.Services
             Nationality = "UTO",
         };
 
+        #region DocumentType
+
         [Fact(DisplayName = "Document Type should be 'Passport'")]
         public void Test_ParseTD3Mrz_ReturnsCorrectDocumentType()
         {
@@ -48,7 +51,7 @@ namespace MRZParser.Tests.Services
             try
             {
                 // Act
-                _subject.Parse(MRZSamples.InvalidTD3);
+                _subject.Parse(FailingTD3Samples.TD3DocumentType);
             }
             catch (Exception e)
             {
@@ -56,6 +59,8 @@ namespace MRZParser.Tests.Services
                 Assert.IsType<UnsupportedMRZException>(e);
             }
         }
+
+        #endregion
 
         [Fact(DisplayName = "Country Code should be 'UTO'")]
         public void Test_ParseTD3Mrz_ReturnsCorrectCountryCode()
@@ -77,6 +82,8 @@ namespace MRZParser.Tests.Services
             Assert.True(expectedModel.LastName == result.LastName);
         }
 
+        #region FirstName
+
         [Fact(DisplayName = "First Name should be 'ANNA MARIA'")]
         public void Test_ParseTD3Mrz_ReturnsFirstName()
         {
@@ -86,6 +93,23 @@ namespace MRZParser.Tests.Services
             // Assert
             Assert.True(expectedModel.FirstName == result.FirstName);
         }
+
+        [Fact(DisplayName = "First Name should throw an UnsupportedMRZException")]
+        public void Test_ParseTD3Mrz_FirstNameThrowsException()
+        {
+            try
+            {
+                // Act
+                _subject.Parse(FailingTD3Samples.TD3FirstName);
+            }
+            catch (Exception e)
+            {
+                // Assert
+                Assert.IsType<UnsupportedMRZException>(e);
+            }
+        }
+
+        #endregion
 
         [Fact(DisplayName = "Document Number should be 'D23145890'")]
         public void Test_ParseTD3Mrz_ReturnsCorrectDocumentNumber()

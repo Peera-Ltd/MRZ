@@ -71,11 +71,21 @@ namespace MRZParser.Services
 
         protected override string FirstName(string mrz)
         {
-            var firstName = mrz[60..]
-                .Split("<<")[1]
-                .Split("<<")[0];
+            try
+            {
+                var firstName = mrz[60..]
+                    .Split("<<")[1]
+                    .Split("<<")[0];
 
-            return firstName.Replace("<", " ");
+                return firstName.Replace("<", " ");
+            }
+            catch (Exception e)
+            {
+                throw new UnsupportedMRZException(
+                    "Could not parse a First Name from the MRZ. The given MRZ may be invalid." +
+                    " The pattern '<<' is required in order to find a First Name." +
+                    $" The given MRZ was {mrz}. Inner exception: ", e);
+            }
         }
     }
 }

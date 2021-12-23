@@ -3,6 +3,7 @@ using MRZParser.Constants;
 using MRZParser.Exceptions;
 using MRZParser.Models;
 using MRZParser.Services;
+using MRZParser.Tests.ExceptionMRZSamples;
 using Xunit;
 
 namespace MRZParser.Tests.Services
@@ -32,6 +33,8 @@ namespace MRZParser.Tests.Services
             Nationality = "UTO",
         };
 
+        #region DocumentType
+
         [Fact(DisplayName = "Document Type should be 'Other'")]
         public void Test_ParseTD2Mrz_ReturnsCorrectDocumentType()
         {
@@ -43,12 +46,12 @@ namespace MRZParser.Tests.Services
         }
 
         [Fact(DisplayName = "Document Type should throw UnsupportedMRZException when an invalid MRZ is passed")]
-        public void Test_ParseTD2Mrz_ThrowsException()
+        public void Test_ParseTD2Mrz_DocumentTypeThrowsException()
         {
             try
             {
                 // Act
-                _subject.Parse(MRZSamples.InvalidTD2);
+                _subject.Parse(FailingTD2Samples.TD2DocumentType);
             }
             catch (Exception e)
             {
@@ -56,6 +59,8 @@ namespace MRZParser.Tests.Services
                 Assert.IsType<UnsupportedMRZException>(e);
             }
         }
+
+        #endregion
 
         [Fact(DisplayName = "Country Code should be 'UTO'")]
         public void Test_ParseTD2Mrz_ReturnsCorrectCountryCode()
@@ -77,6 +82,8 @@ namespace MRZParser.Tests.Services
             Assert.True(expectedModel.LastName == result.LastName);
         }
 
+        #region FirstName
+
         [Fact(DisplayName = "First Name should be 'ANNA MARIA'")]
         public void Test_ParseTD2Mrz_ReturnsFirstName()
         {
@@ -86,6 +93,23 @@ namespace MRZParser.Tests.Services
             // Assert
             Assert.True(expectedModel.FirstName == result.FirstName);
         }
+
+        [Fact(DisplayName = "First Name should throw an UnsupportedMRZException")]
+        public void Test_ParseTD2Mrz_FirstNameThrowsException()
+        {
+            try
+            {
+                // Act
+                _subject.Parse(FailingTD2Samples.TD2FirstName);
+            }
+            catch (Exception e)
+            {
+                // Assert
+                Assert.IsType<UnsupportedMRZException>(e);
+            }
+        }
+
+        #endregion
 
         [Fact(DisplayName = "Document Number should be 'D23145890'")]
         public void Test_ParseTD2Mrz_ReturnsCorrectDocumentNumber()
