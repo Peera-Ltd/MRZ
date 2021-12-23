@@ -15,6 +15,7 @@ This project supports MRZ of 3 types:
 
 # TD3:
 2 lines of 44 characters.
+
 ![alt text](https://www.doubango.org/SDKs/mrz/docs/_images/td3_image.jpg)
 
 MRVA and MRVB are also supported but as there is no functionality to extract optional data, they are treated the same as TD2 and TD3 respectively.
