@@ -36,7 +36,7 @@ namespace MRZParser.Services
             throw new NotImplementedException();
         }
 
-        protected virtual string? DocumentNumber(string mrz)
+        protected virtual string DocumentNumber(string mrz)
         {
             throw new NotImplementedException();
         }
