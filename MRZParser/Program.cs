@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MRZParser.Tests.Helpers;
+using MRZParser.Constants;
 
 namespace MRZParser
 {
-    class Program
+    public class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             var samples = new List<string>
             {

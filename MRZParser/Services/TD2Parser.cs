@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using MRZParser.Models;
 
 namespace MRZParser.Services
@@ -39,25 +38,25 @@ namespace MRZParser.Services
         protected override string DocumentNumber(string mrz)
         {
             var potentialDocNumber = mrz[36..45];
-            return potentialDocNumber.Replace("<", "");
+            return potentialDocNumber.Replace("<", string.Empty);
         }
-        
+
         protected override string Nationality(string mrz) => $"{mrz[46]}{mrz[47]}{mrz[48]}";
-        
+
         protected override DateTime? DateOfBirth(string mrz)
             => ParseDate($"{mrz[53]}{mrz[54]}", $"{mrz[51]}{mrz[52]}", $"{mrz[49]}{mrz[50]}");
 
         protected override string Sex(string mrz)
         {
-            return (mrz[56]) switch
+            return mrz[56] switch
             {
                 'F' => "Female",
                 'M' => "Male",
                 _ => "Other"
             };
         }
-        
-        protected override DateTime? ExpiryDate(string mrz) 
+
+        protected override DateTime? ExpiryDate(string mrz)
             => ParseDate($"{mrz[61]}{mrz[62]}", $"{mrz[59]}{mrz[60]}", $"{mrz[57]}{mrz[58]}");
     }
 }
