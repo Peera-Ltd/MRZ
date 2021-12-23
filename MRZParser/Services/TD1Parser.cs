@@ -33,16 +33,29 @@ namespace MRZParser.Services
                 : throw new UnsupportedMRZException(
                     $"A TD1 (3 lines of 30 characters) MRZ should start with either A, C or I, but it was {mrz[0]}.");
 
-        protected override string? DocumentNumber(string mrz)
+        protected override string DocumentNumber(string mrz)
         {
-            var potentialDocNumber = mrz[5..].Split('<')[0];
-            if (potentialDocNumber.Length <= 9)
+            try
             {
-                return potentialDocNumber;
-            }
+                var potentialDocNumber = mrz[5..].Split('<')[0];
+                if (potentialDocNumber.Length <= 9)
+                {
+                    return potentialDocNumber;
+                }
 
-            var docNumber = potentialDocNumber.Remove(potentialDocNumber.Length - 1);
-            return docNumber.Length <= 9 ? docNumber : null;
+                var docNumber = potentialDocNumber.Remove(potentialDocNumber.Length - 1);
+                return docNumber.Length <= 9
+                    ? docNumber
+                    : throw new UnsupportedMRZException(
+                        "Failed to find a document number in the given MRZ. Expected to find the document number " +
+                        $"between the 5th character and the first '<'. The given MRZ was {mrz}");
+            }
+            catch (Exception e)
+            {
+                throw new UnsupportedMRZException(
+                    "Failed to find a document number in the given MRZ. Expected to find the document number " +
+                    $"between the 5th character and the first '<'. The given MRZ was {mrz}. Inner exception: ", e);
+            }
         }
 
         protected override DateTime? DateOfBirth(string mrz)

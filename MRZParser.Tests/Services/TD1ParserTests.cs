@@ -74,6 +74,8 @@ namespace MRZParser.Tests.Services
             Assert.True(expectedModel.CountryCode == result.CountryCode);
         }
 
+        #region DocumentNumber
+
         [Fact(DisplayName = "Document Number should be 'D23145890'")]
         public void Test_ParseTD1Mrz_ReturnsCorrectDocumentNumber()
         {
@@ -83,6 +85,23 @@ namespace MRZParser.Tests.Services
             // Assert
             Assert.True(expectedModel.DocumentNumber == result.DocumentNumber);
         }
+
+        [Fact(DisplayName = "Document Number should throw an UnsupportedMRZException")]
+        public void Test_ParseTD1Mrz_DocumentNumberThrowsException()
+        {
+            try
+            {
+                // Act
+                _subject.Parse(FailingTD1Samples.TD1DocumentNumber);
+            }
+            catch (Exception e)
+            {
+                // Assert
+                Assert.IsType<UnsupportedMRZException>(e);
+            }
+        }
+
+        #endregion
 
         [Fact(DisplayName = "Date Of Birth should be '12 August 1974'")]
         public void Test_ParseTD1Mrz_ReturnsCorrectDateOfBirth()
