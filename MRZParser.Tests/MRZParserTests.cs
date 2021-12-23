@@ -1,4 +1,4 @@
-using MRZParser.Tests.Helpers;
+using MRZParser.Constants;
 using Xunit;
 
 namespace MRZParser.Tests
@@ -16,7 +16,7 @@ namespace MRZParser.Tests
         {
             // Act
             var result = MRZParser.Parse(mrz);
-            
+
             // Assert
             Assert.True(result?.DocumentType == expectedResult);
         }

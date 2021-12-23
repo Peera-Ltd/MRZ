@@ -1,16 +1,22 @@
 using System;
+using MRZParser.Constants;
 using MRZParser.Models;
 using MRZParser.Services;
-using MRZParser.Tests.Helpers;
 using Xunit;
 
 namespace MRZParser.Tests.Services
 {
     public class TD2ParserTests
     {
-        private readonly TD2Parser _subject = new ();
+        private const string Mrz = MRZSamples.TD2;
 
-        private const string mrz = MRZSamples.TD2;
+        private const string InvalidSexMaleMrz = "I<UTOERIKSSON<<ANNA<MARIA<<<<<<<<<<<" +
+                                                 "D231458907UTO7408122M1204159<<<<<<<6";
+
+        private const string InvalidSexOtherMrz = "I<UTOERIKSSON<<ANNA<MARIA<<<<<<<<<<<" +
+                                                  "D231458907UTO7408122X1204159<<<<<<<6";
+
+        private readonly TD2Parser _subject = new ();
 
         private readonly MRZModel expectedModel = new ()
         {
@@ -29,38 +35,38 @@ namespace MRZParser.Tests.Services
         public void Test_ParseTD2Mrz_ReturnsCorrectDocumentType()
         {
             // Act
-            var result = _subject.Parse(mrz);
-            
+            var result = _subject.Parse(Mrz);
+
             // Assert
             Assert.True(expectedModel.DocumentType == result.DocumentType);
         }
-        
+
         [Fact(DisplayName = "Country Code should be 'UTO'")]
         public void Test_ParseTD2Mrz_ReturnsCorrectCountryCode()
         {
             // Act
-            var result = _subject.Parse(mrz);
-            
+            var result = _subject.Parse(Mrz);
+
             // Assert
             Assert.True(expectedModel.CountryCode == result.CountryCode);
         }
-        
+
         [Fact(DisplayName = "Last Name should be 'ERIKSSON'")]
         public void Test_ParseTD2Mrz_ReturnsLastName()
         {
             // Act
-            var result = _subject.Parse(mrz);
-            
+            var result = _subject.Parse(Mrz);
+
             // Assert
             Assert.True(expectedModel.LastName == result.LastName);
         }
-        
+
         [Fact(DisplayName = "First Name should be 'ANNA MARIA'")]
         public void Test_ParseTD2Mrz_ReturnsFirstName()
         {
             // Act
-            var result = _subject.Parse(mrz);
-            
+            var result = _subject.Parse(Mrz);
+
             // Assert
             Assert.True(expectedModel.FirstName == result.FirstName);
         }
@@ -69,7 +75,7 @@ namespace MRZParser.Tests.Services
         public void Test_ParseTD2Mrz_ReturnsCorrectDocumentNumber()
         {
             // Act
-            var result = _subject.Parse(mrz);
+            var result = _subject.Parse(Mrz);
 
             // Assert
             Assert.True(expectedModel.DocumentNumber == result.DocumentNumber);
@@ -79,43 +85,41 @@ namespace MRZParser.Tests.Services
         public void Test_ParseTD2Mrz_ReturnsNationality()
         {
             // Act
-            var result = _subject.Parse(mrz);
+            var result = _subject.Parse(Mrz);
 
             // Assert
             Assert.True(expectedModel.Nationality == result.Nationality);
         }
-        
+
         [Fact(DisplayName = "Date Of Birth should be '12 August 1974'")]
         public void Test_ParseTD2Mrz_ReturnsCorrectDateOfBirth()
         {
             // Act
-            var result = _subject.Parse(mrz);
-            
+            var result = _subject.Parse(Mrz);
+
             // Assert
             Assert.True(expectedModel.DateOfBirth == result.DateOfBirth);
         }
-        
+
         [Theory(DisplayName = "Sex should return the correct sex")]
         [InlineData(MRZSamples.TD2, "Female")]
-        [InlineData("I<UTOERIKSSON<<ANNA<MARIA<<<<<<<<<<<" +
-                    "D231458907UTO7408122M1204159<<<<<<<6", "Male")]
-        [InlineData("I<UTOERIKSSON<<ANNA<MARIA<<<<<<<<<<<" +
-                    "D231458907UTO7408122X1204159<<<<<<<6", "Other")]
+        [InlineData(InvalidSexMaleMrz, "Male")]
+        [InlineData(InvalidSexOtherMrz, "Other")]
         public void Test_ParseTD2Mrz_ReturnsCorrectSex(string mrzWithDifferentSex, string sex)
         {
             // Act
             var result = _subject.Parse(mrzWithDifferentSex);
-            
+
             // Assert
             Assert.True(sex == result.Sex);
         }
-        
+
         [Fact(DisplayName = "Expiry Date should be '15 April 2012'")]
         public void Test_ParseTD2Mrz_ReturnsExpiryDate()
         {
             // Act
-            var result = _subject.Parse(mrz);
-            
+            var result = _subject.Parse(Mrz);
+
             // Assert
             Assert.True(expectedModel.ExpiryDate == result.ExpiryDate);
         }
