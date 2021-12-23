@@ -1,4 +1,5 @@
 using System;
+using MRZParser.Exceptions;
 using MRZParser.Models;
 
 namespace MRZParser.Services
@@ -25,13 +26,14 @@ namespace MRZParser.Services
             };
         }
 
-        protected override string? DocumentType(string mrz)
+        protected override string DocumentType(string mrz)
         {
             return mrz[0] switch
             {
                 'V' => "Visa",
                 'P' => "Passport",
-                _ => null
+                _ => throw new UnsupportedMRZException(
+                    $"A TD3 (2 lines of 44 characters) MRZ should start with either V or P, but it was {mrz[0]}.")
             };
         }
 

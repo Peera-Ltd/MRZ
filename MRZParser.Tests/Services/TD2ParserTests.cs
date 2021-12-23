@@ -1,5 +1,6 @@
 using System;
 using MRZParser.Constants;
+using MRZParser.Exceptions;
 using MRZParser.Models;
 using MRZParser.Services;
 using Xunit;
@@ -39,6 +40,21 @@ namespace MRZParser.Tests.Services
 
             // Assert
             Assert.True(expectedModel.DocumentType == result.DocumentType);
+        }
+
+        [Fact(DisplayName = "Document Type should throw UnsupportedMRZException when an invalid MRZ is passed")]
+        public void Test_ParseTD2Mrz_ThrowsException()
+        {
+            try
+            {
+                // Act
+                _subject.Parse(MRZSamples.InvalidTD2);
+            }
+            catch (Exception e)
+            {
+                // Assert
+                Assert.IsType<UnsupportedMRZException>(e);
+            }
         }
 
         [Fact(DisplayName = "Country Code should be 'UTO'")]

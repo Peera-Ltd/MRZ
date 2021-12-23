@@ -17,5 +17,15 @@ namespace MRZParser.Constants
 
         public const string MRVB = "V<UTOERIKSSON<<ANNA<MARIA<<<<<<<<<<<" +
                                    "L8988901C4XXX4009078F9612109<<<<<<<<";
+
+        public const string InvalidTD1 = "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHH" +
+                                         "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHH" +
+                                         "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHH";
+
+        public const string InvalidTD2 = "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ" +
+                                         "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
+
+        public const string InvalidTD3 = "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY" +
+                                         "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY";
     }
 }

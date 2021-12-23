@@ -28,7 +28,7 @@ namespace MRZParser.Services
 
         protected static string CountryCode(string mrz) => $"{mrz[2]}{mrz[3]}{mrz[4]}";
 
-        protected virtual string? DocumentType(string mrz)
+        protected virtual string DocumentType(string mrz)
         {
             throw new NotImplementedException();
         }

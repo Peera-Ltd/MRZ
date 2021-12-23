@@ -1,4 +1,5 @@
 using System;
+using MRZParser.Exceptions;
 using MRZParser.Models;
 
 namespace MRZParser.Services
@@ -26,7 +27,11 @@ namespace MRZParser.Services
             };
         }
 
-        protected override string? DocumentType(string mrz) => mrz[0] is 'A' or 'C' or 'I' ? "Other" : null;
+        protected override string DocumentType(string mrz)
+            => mrz[0] is 'A' or 'C' or 'I'
+                ? "Other"
+                : throw new UnsupportedMRZException(
+                    $"A TD1 (3 lines of 30 characters) MRZ should start with either A, C or I, but it was {mrz[0]}.");
 
         protected override string? DocumentNumber(string mrz)
         {
