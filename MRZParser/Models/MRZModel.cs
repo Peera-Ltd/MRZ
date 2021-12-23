@@ -10,11 +10,11 @@ namespace MRZParser.Models
 
         public string? DocumentNumber { get; set; }
 
-        public DateTime? DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         public string? Sex { get; set; }
 
-        public DateTime? ExpiryDate { get; set; }
+        public DateTime ExpiryDate { get; set; }
 
         public string? FirstName { get; set; }
 

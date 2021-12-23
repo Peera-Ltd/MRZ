@@ -1,4 +1,5 @@
 using System;
+using MRZParser.Exceptions;
 using MRZParser.Models;
 
 namespace MRZParser.Services
@@ -25,13 +26,14 @@ namespace MRZParser.Services
             };
         }
 
-        protected override string? DocumentType(string mrz)
+        protected override string DocumentType(string mrz)
         {
             return mrz[0] switch
             {
                 'V' => "Visa",
                 'P' => "Passport",
-                _ => null
+                _ => throw new UnsupportedMRZException(
+                    $"A TD3 (2 lines of 44 characters) MRZ should start with either V or P, but it was {mrz[0]}.")
             };
         }
 
@@ -43,7 +45,7 @@ namespace MRZParser.Services
 
         protected override string Nationality(string mrz) => $"{mrz[54]}{mrz[55]}{mrz[56]}";
 
-        protected override DateTime? DateOfBirth(string mrz)
+        protected override DateTime DateOfBirth(string mrz)
             => ParseDate($"{mrz[61]}{mrz[62]}", $"{mrz[59]}{mrz[60]}", $"{mrz[57]}{mrz[58]}");
 
         protected override string Sex(string mrz)
@@ -56,7 +58,7 @@ namespace MRZParser.Services
             };
         }
 
-        protected override DateTime? ExpiryDate(string mrz)
+        protected override DateTime ExpiryDate(string mrz)
             => ParseDate($"{mrz[69]}{mrz[70]}", $"{mrz[67]}{mrz[68]}", $"{mrz[65]}{mrz[66]}");
     }
 }

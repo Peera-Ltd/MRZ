@@ -1,7 +1,9 @@
 using System;
 using MRZParser.Constants;
+using MRZParser.Exceptions;
 using MRZParser.Models;
 using MRZParser.Services;
+using MRZParser.Tests.ExceptionMRZSamples;
 using Xunit;
 
 namespace MRZParser.Tests.Services
@@ -33,6 +35,8 @@ namespace MRZParser.Tests.Services
             FirstName = "ANNA MARIA",
         };
 
+        #region DocumentType
+
         [Fact(DisplayName = "Document Type should be 'Other'")]
         public void Test_ParseTD1Mrz_ReturnsCorrectDocumentType()
         {
@@ -42,6 +46,23 @@ namespace MRZParser.Tests.Services
             // Assert
             Assert.True(expectedModel.DocumentType == result.DocumentType);
         }
+
+        [Fact(DisplayName = "Document Type should throw UnsupportedMRZException when an invalid MRZ is passed")]
+        public void Test_ParseTD1Mrz_ThrowsException()
+        {
+            try
+            {
+                // Act
+                _subject.Parse(FailingTD1Samples.TD1DocumentType);
+            }
+            catch (Exception e)
+            {
+                // Assert
+                Assert.IsType<UnsupportedMRZException>(e);
+            }
+        }
+
+        #endregion
 
         [Fact(DisplayName = "Country Code should be 'UTO'")]
         public void Test_ParseTD1Mrz_ReturnsCorrectCountryCode()
@@ -53,6 +74,8 @@ namespace MRZParser.Tests.Services
             Assert.True(expectedModel.CountryCode == result.CountryCode);
         }
 
+        #region DocumentNumber
+
         [Fact(DisplayName = "Document Number should be 'D23145890'")]
         public void Test_ParseTD1Mrz_ReturnsCorrectDocumentNumber()
         {
@@ -63,6 +86,25 @@ namespace MRZParser.Tests.Services
             Assert.True(expectedModel.DocumentNumber == result.DocumentNumber);
         }
 
+        [Fact(DisplayName = "Document Number should throw an UnsupportedMRZException")]
+        public void Test_ParseTD1Mrz_DocumentNumberThrowsException()
+        {
+            try
+            {
+                // Act
+                _subject.Parse(FailingTD1Samples.TD1DocumentNumber);
+            }
+            catch (Exception e)
+            {
+                // Assert
+                Assert.IsType<UnsupportedMRZException>(e);
+            }
+        }
+
+        #endregion
+
+        #region DateOfBirth
+
         [Fact(DisplayName = "Date Of Birth should be '12 August 1974'")]
         public void Test_ParseTD1Mrz_ReturnsCorrectDateOfBirth()
         {
@@ -72,6 +114,23 @@ namespace MRZParser.Tests.Services
             // Assert
             Assert.True(expectedModel.DateOfBirth == result.DateOfBirth);
         }
+
+        [Fact(DisplayName = "Date Of Birth should throw an UnsupportedMRZException")]
+        public void Test_ParseTD1Mrz_DateOfBirthThrowsException()
+        {
+            try
+            {
+                // Act
+                _subject.Parse(FailingTD1Samples.TD1DateOfBirth);
+            }
+            catch (Exception e)
+            {
+                // Assert
+                Assert.IsType<UnsupportedMRZException>(e);
+            }
+        }
+
+        #endregion
 
         [Theory(DisplayName = "Sex should return the correct sex")]
         [InlineData(MRZSamples.TD1, "Female")]
@@ -106,6 +165,8 @@ namespace MRZParser.Tests.Services
             Assert.True(expectedModel.Nationality == result.Nationality);
         }
 
+        #region LastName
+
         [Fact(DisplayName = "Last Name should be 'ERIKSSON'")]
         public void Test_ParseTD1Mrz_ReturnsLastName()
         {
@@ -116,6 +177,25 @@ namespace MRZParser.Tests.Services
             Assert.True(expectedModel.LastName == result.LastName);
         }
 
+        [Fact(DisplayName = "Last Name should throw an UnsupportedMRZException")]
+        public void Test_ParseTD1Mrz_LastNameThrowsException()
+        {
+            try
+            {
+                // Act
+                _subject.Parse(FailingTD1Samples.TD1LastName);
+            }
+            catch (Exception e)
+            {
+                // Assert
+                Assert.IsType<UnsupportedMRZException>(e);
+            }
+        }
+
+        #endregion
+
+        #region FirstName
+
         [Fact(DisplayName = "First Name should be 'ANNA MARIA'")]
         public void Test_ParseTD1Mrz_ReturnsFirstName()
         {
@@ -125,5 +205,22 @@ namespace MRZParser.Tests.Services
             // Assert
             Assert.True(expectedModel.FirstName == result.FirstName);
         }
+
+        [Fact(DisplayName = "First Name should throw an UnsupportedMRZException")]
+        public void Test_ParseTD1Mrz_FirstNameThrowsException()
+        {
+            try
+            {
+                // Act
+                _subject.Parse(FailingTD1Samples.TD1FirstName);
+            }
+            catch (Exception e)
+            {
+                // Assert
+                Assert.IsType<UnsupportedMRZException>(e);
+            }
+        }
+
+        #endregion
     }
 }
