@@ -1,25 +1,35 @@
 ﻿using System;
-using MRZParser.Models;
+using System.Collections.Generic;
+using System.Linq;
+using MRZParser.Constants;
 
 namespace MRZParser
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
-            var model = MRZParser.Parse(
-                "IRGBRRJ01225888<<<<<<<<<<<<<<<" +
-            "9011252M2109228IDN<<<<<<<<<<<0" +
-            "LEWIS<LAIDIN<<<<<<<<<<<<<<<<<<");
-            
-            Console.WriteLine(model?.DocumentType);
-            Console.WriteLine(model?.CountryCode);
-            Console.WriteLine(model?.DocumentNumber);
-            Console.WriteLine(model?.DateOfBirth);
-            Console.WriteLine(model?.Sex);
-            Console.WriteLine(model?.ExpiryDate);
-            Console.WriteLine(model?.LastName);
-            Console.WriteLine(model?.FirstName);
+            var samples = new List<string>
+            {
+                MRZSamples.TD1,
+                MRZSamples.TD2,
+                MRZSamples.TD3,
+                MRZSamples.MRVA,
+                MRZSamples.MRVB,
+            };
+
+            foreach (var model in samples.Select(MRZParser.Parse))
+            {
+                Console.WriteLine($"Document Type: {model?.DocumentType}");
+                Console.WriteLine($"Country Code: {model?.CountryCode}");
+                Console.WriteLine($"Document Number: {model?.DocumentNumber}");
+                Console.WriteLine($"Date of Birth: {model?.DateOfBirth}");
+                Console.WriteLine($"Sex: {model?.Sex}");
+                Console.WriteLine($"Expiry Date: {model?.ExpiryDate}");
+                Console.WriteLine($"Last Name: {model?.LastName}");
+                Console.WriteLine($"First Name: {model?.FirstName}");
+                Console.WriteLine();
+            }
         }
     }
 }

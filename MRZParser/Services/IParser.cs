@@ -1,4 +1,3 @@
-using System;
 using MRZParser.Models;
 
 namespace MRZParser.Services

@@ -1,17 +1,17 @@
 using System;
-using System.Globalization;
+using MRZParser.Exceptions;
 using MRZParser.Models;
 
 namespace MRZParser.Services
 {
     // TODO: - Needs some exception handling
-    
+
     /// <summary>
-    /// TD1 Format has 3 lines of 30 characters
+    /// TD1 Format has 3 lines of 30 characters.
     /// </summary>
-    public class TD1Parser : IParser
+    public class TD1Parser : BaseParser
     {
-        public MRZModel Parse(string mrz)
+        public override MRZModel Parse(string mrz)
         {
             return new MRZModel
             {
@@ -23,74 +23,92 @@ namespace MRZParser.Services
                 ExpiryDate = ExpiryDate(mrz),
                 Nationality = Nationality(mrz),
                 LastName = LastName(mrz),
-                FirstName = FirstName(mrz)
+                FirstName = FirstName(mrz),
             };
         }
 
-        // The second character can also be part of the doc type, but I don't know if I want to do anything with it.
-        private static string? DocumentType(string mrz) => mrz[0] is 'A' or 'C' or 'I' ? "Other" : null;
+        protected override string DocumentType(string mrz)
+            => mrz[0] is 'A' or 'C' or 'I'
+                ? "Other"
+                : throw new UnsupportedMRZException(
+                    $"A TD1 (3 lines of 30 characters) MRZ should start with either A, C or I, but it was {mrz[0]}.");
 
-        // Could potentially parse a list of country codes and return a string.
-        private static string CountryCode(string mrz) => $"{mrz[2]}{mrz[3]}{mrz[4]}";
-
-        private static string? DocumentNumber(string mrz)
+        protected override string DocumentNumber(string mrz)
         {
-            var potentialDocNumber = mrz[5..].Split('<')[0];
-            if (potentialDocNumber.Length <= 9)
+            try
             {
-                return potentialDocNumber;
+                var potentialDocNumber = mrz[5..].Split('<')[0];
+                if (potentialDocNumber.Length <= 9)
+                {
+                    return potentialDocNumber;
+                }
+
+                var docNumber = potentialDocNumber.Remove(potentialDocNumber.Length - 1);
+                return docNumber.Length <= 9
+                    ? docNumber
+                    : throw new UnsupportedMRZException(
+                        "Failed to find a document number in the given MRZ. Expected to find the document number " +
+                        $"between the 5th character and the first '<'. The given MRZ was {mrz}");
             }
-            
-            var docNumber = potentialDocNumber.Remove(potentialDocNumber.Length - 1);
-            return docNumber.Length <= 9 ? docNumber : null;
+            catch (Exception e)
+            {
+                throw new UnsupportedMRZException(
+                    "Failed to find a document number in the given MRZ. Expected to find the document number " +
+                    $"between the 5th character and the first '<'. The given MRZ was {mrz}. Inner exception: ", e);
+            }
         }
-        
-        private static DateTime? DateOfBirth(string mrz)
+
+        protected override DateTime DateOfBirth(string mrz)
             => ParseDate($"{mrz[34]}{mrz[35]}", $"{mrz[32]}{mrz[33]}", $"{mrz[30]}{mrz[31]}");
 
-        private static string Sex(string mrz)
+        protected override string Sex(string mrz)
         {
-            return (mrz[37]) switch
+            return mrz[37] switch
             {
                 'F' => "Female",
                 'M' => "Male",
-                _ => "Undefined"
+                _ => "Other"
             };
         }
 
-        private static DateTime? ExpiryDate(string mrz) 
+        protected override DateTime ExpiryDate(string mrz)
             => ParseDate($"{mrz[42]}{mrz[43]}", $"{mrz[40]}{mrz[41]}", $"{mrz[38]}{mrz[39]}");
 
-        private static string Nationality(string mrz) => $"{mrz[45]}{mrz[46]}{mrz[47]}";
-        
-        private static string LastName(string mrz)
-        {
-            var lastName = mrz[60..].Split("<<")[0];
-            return lastName.Replace("<", " ");
-        }
+        protected override string Nationality(string mrz) => $"{mrz[45]}{mrz[46]}{mrz[47]}";
 
-        private static string FirstName(string mrz)
+        protected override string LastName(string mrz)
         {
-            var firstName = mrz[60..]
-                .Split("<<")[1]
-                .Split("<<")[0];
-
-            return firstName.Replace("<", " ");
-        }
-        
-        private static DateTime? ParseDate(string day, string month, string year)
-        {
-            if (DateTime.TryParseExact(
-                $"{day}/{month}/{year}",
-                "dd/MM/yy",
-                CultureInfo.InvariantCulture,
-                DateTimeStyles.None,
-                out var expiryDate))
+            try
             {
-                return expiryDate;
+                var lastName = mrz[60..].Split("<<")[0];
+                return lastName.Replace("<", " ");
             }
+            catch (Exception e)
+            {
+                throw new UnsupportedMRZException(
+                    "Could not parse a Last Name from the MRZ. The given MRZ may be invalid." +
+                    " The pattern '<<' is required in order to find a Last Name." +
+                    $" The given MRZ was {mrz}. Inner exception: ", e);
+            }
+        }
 
-            return null;
+        protected override string FirstName(string mrz)
+        {
+            try
+            {
+                var firstName = mrz[60..]
+                    .Split("<<")[1]
+                    .Split("<<")[0];
+
+                return firstName.Replace("<", " ");
+            }
+            catch (Exception e)
+            {
+                throw new UnsupportedMRZException(
+                    "Could not parse a First Name from the MRZ. The given MRZ may be invalid." +
+                    " The pattern '<<' is required in order to find a First Name." +
+                    $" The given MRZ was {mrz}. Inner exception: ", e);
+            }
         }
     }
 }
