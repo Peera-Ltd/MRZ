@@ -4,7 +4,7 @@ using MRZParser.Services;
 
 namespace MRZParser
 {
-    public static class MRZParser
+    public abstract class MRZParser
     {
         /// <summary>
         /// Supports the following MRZ Formats: TD1, TD2, TD3, MRVA, MRVB.

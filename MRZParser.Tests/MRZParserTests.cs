@@ -11,7 +11,6 @@ namespace MRZParser.Tests
         [InlineData(MRZSamples.TD3, "Passport")]
         [InlineData(MRZSamples.MRVA, "Visa")]
         [InlineData(MRZSamples.MRVB, "Visa")]
-        [InlineData("An Invalid MRZ", null)]
         public void MRZParser_ShouldParseAGivenMRZ(string mrz, string expectedResult)
         {
             // Act
