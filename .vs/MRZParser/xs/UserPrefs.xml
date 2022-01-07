@@ -1,0 +1,25 @@
+﻿<Properties StartupConfiguration="{4208856B-F18F-48EB-9F39-3CF4EFB13999}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MRZParser/MRZParser.csproj">
+    <Files>
+      <File FileName="MRZParser/MRZParser.csproj" Line="7" Column="29" />
+      <File FileName="MRZParser.Tests/MRZParser.Tests.csproj" Line="8" Column="40" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="MRZParser" expanded="True">
+            <Node name="MRZParser" expanded="True" />
+            <Node name="MRZParser.Tests" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.MRZParser PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

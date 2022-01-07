@@ -1,5 +1,5 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">/Users/stefannovak/Library/Caches/JetBrains/Rider2021.2/resharper-host/temp/Rider/vAny/CoverageData/_MRZParser.-1843350984/Snapshot/snapshot.utdcvr</s:String>
+	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=af436223_002Df7fa_002D43fa_002D9272_002Da7e0d3e69ff6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="MRZParser.Parse should take an MRZ and return a model of its contents" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Project Location="/Users/stefannovak/Projects/Personal Projects/MRZParser/MRZParser.Tests" Presentation="&amp;lt;MRZParser.Tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
